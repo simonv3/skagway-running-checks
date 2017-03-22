@@ -1,0 +1,21 @@
+{
+  "name": "skagway-running-checks",
+  "version": "0.0.1",
+  "description": "Keeping track of Skagway's expenses",
+  "main": "index.js",
+  "dependencies": {
+    "csv": "^1.1.1",
+    "csv-parse": "^1.2.0",
+    "moment": "^2.18.1",
+    "tabula-js": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "civic"
+  ],
+  "author": "Simon",
+  "license": "MIT"
+}
