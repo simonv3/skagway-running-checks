@@ -22,6 +22,10 @@ t.extractCsv((err, data) => {
         var date = moment(lineItem[0].split(' ')[0], 'M/DD/YYYY');
         var to = lineItem[1].trim();
         var description = lineItem[2].trim();
+        if (!isNaN(Number(description.replace(',','')))) {
+          console.log('not NaN')
+          description = '';
+        }
         var currency = lineItem[lineItem.length-1].trim();
         var amount = Number(currency.replace(/[^0-9\.]+/g,""));
         futureCSV.push([date.format(), to, description, currency]);
