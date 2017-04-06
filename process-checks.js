@@ -7,7 +7,7 @@ const file = process.argv[2];
 const fileDate = moment(file.replace(/[^0-9]+/g,''), 'MMDDYY');
 const t = tabula(file, {pages: 'all'});
 
-var futureCSV = [];
+var futureCSV = [['date', 'to', 'description', 'amount']];
 t.extractCsv((err, data) => {
   if (err) console.log(err);
   data.forEach(function (datum, idx) {
@@ -23,12 +23,11 @@ t.extractCsv((err, data) => {
         var to = lineItem[1].trim();
         var description = lineItem[2].trim();
         if (!isNaN(Number(description.replace(',','')))) {
-          console.log('not NaN')
           description = '';
         }
         var currency = lineItem[lineItem.length-1].trim();
         var amount = Number(currency.replace(/[^0-9\.]+/g,""));
-        futureCSV.push([date.format(), to, description, currency]);
+        futureCSV.push([date.format(), to, description, amount]);
       }
 
       if (idx === data.length-1) {

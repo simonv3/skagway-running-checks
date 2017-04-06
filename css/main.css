@@ -1,0 +1,12 @@
+body {
+  display: flex;
+}
+
+svg {
+  display: inline-block;
+}
+
+div.sidebar {
+  display: inline-block;
+  max-width: 300px;
+}

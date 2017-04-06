@@ -6,6 +6,7 @@
   "dependencies": {
     "csv": "^1.1.1",
     "csv-parse": "^1.2.0",
+    "d3": "^4.7.3",
     "moment": "^2.18.1",
     "tabula-js": "^1.0.1"
   },
