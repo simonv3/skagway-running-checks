@@ -15,10 +15,9 @@ var treemap = d3.treemap()
 d3.csv('check-runs/03-16-17.csv', function(error, data) {
   if (error) throw error;
 
-  data = {
-    name: 'checks',
-    children: data
-  }
+  data = groupData(data);
+
+  console.log(data);
 
   var genId = 0;
   var root = d3.hierarchy(data)
@@ -40,7 +39,7 @@ d3.csv('check-runs/03-16-17.csv', function(error, data) {
       .attr("id", function(d) { return d.data.id; })
       .attr("width", function(d) { return d.x1 - d.x0; })
       .attr("height", function(d) { return d.y1 - d.y0; })
-      .attr("fill", function(d) { return color(Math.random() * 100 | 0); });
+      .attr("fill", function(d) { return color(d.parent.data.id * 100); });
 
   cell.append("clipPath")
       .attr("id", function(d) { return "clip-" + d.data.id; })
@@ -56,7 +55,7 @@ d3.csv('check-runs/03-16-17.csv', function(error, data) {
   cell.on('click', function (d) {
     var html = '<p>' + d.data.to + '</p>' +
                '<p>' + d.data.description + '</p>' +
-               '<p>' + d.data.amount + '</p>';
+               '<p>' + format(d.data.amount) + '</p>';
     d3.select('#description').html(html);
   });
 
@@ -93,4 +92,36 @@ function sumByCount(d) {
 
 function sumBySize(d) {
   return d.amount;
+}
+
+function groupData (data) {
+  var newData = {
+    name: 'checks',
+    children: []
+  };
+
+  var groups = [];
+
+  data.forEach(function (datum) {
+    var name;
+
+    if (groups.indexOf(datum.to) === -1) {
+      groups.push(datum.to);
+      newData.children.push({
+        to: datum.to,
+        children: [datum]
+      });
+    } else {
+      var child = findInChildren(newData.children, datum.to);
+      child.children.push(datum);
+    }
+  });
+
+  return newData;
+}
+
+function findInChildren (children, name) {
+  return children.filter(function (child) {
+    return child.to === name && !child.amount;
+  })[0];
 }
